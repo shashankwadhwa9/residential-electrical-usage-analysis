@@ -130,10 +130,3 @@ dmypy.json
 
 # Mac
 .DS_Store
-
-# Data files
-*.csv
-*.parquet
-*.parquet.crc
-*._SUCCESS.crc
-*_SUCCESS*
