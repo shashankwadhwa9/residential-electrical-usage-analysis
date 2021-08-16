@@ -23,3 +23,12 @@
 4. **Electrical rates data**
    * Contains the cost of electricity
    * ![](docs/rates_data.png)
+
+### AWS Services Used for Analysis
+
+* **S3** - for storing all the raw data
+* **Glue** - for preparing the data for analytics
+* **Glue Data Catalog** - for storing the associated metadata (e.g., table definition and schema) 
+* **Athena** - for querying the data on S3
+* **QuickSight** - for creating the dashboard
+* **Lambda** - for running a serverless function on the cloud
