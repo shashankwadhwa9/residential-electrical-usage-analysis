@@ -1,0 +1,18 @@
+[
+  {
+    "ParameterKey": "DataBucketName",
+    "ParameterValue": "shashank-smart-hub-data"
+  },
+  {
+    "ParameterKey": "ScriptBucketName",
+    "ParameterValue": "shashank-smart-hub-scripts"
+  },
+  {
+    "ParameterKey": "LogBucketName",
+    "ParameterValue": "shashank-smart-hub-logs"
+  },
+  {
+    "ParameterKey": "GlueDatabaseName",
+    "ParameterValue": "smart_hub_data_catalog"
+  }
+]
