@@ -757,16 +757,6 @@
                 ]
               }
             }
-          ],
-          "CatalogTargets": [
-            {
-              "DatabaseName": {
-                "Ref": "GlueDatabase"
-              },
-              "Tables": [
-                "etl_output_parquet"
-              ]
-            }
           ]
         },
         "DatabaseName": {
