@@ -18,6 +18,8 @@ def lambda_handler(event, context):
     """
     Convert the raw data to Parquet using CTAS statement
     """
+    logger.info(f'Lambda execution started with event {event}')
+
     # Validate the event dict for required parameters
     required_fields = ['parquet_glue_table', 'raw_glue_table', 'partition_by_column']
     for field in required_fields:
@@ -51,5 +53,7 @@ def lambda_handler(event, context):
         },
         WorkGroup='primary'
     )
+
+    logger.info('Lambda execution completed')
 
     return response

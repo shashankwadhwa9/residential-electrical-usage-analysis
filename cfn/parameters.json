@@ -1,5 +1,9 @@
 [
   {
+    "ParameterKey": "StackName",
+    "ParameterValue": "residential-electrical-usage-analysis"
+  },
+  {
     "ParameterKey": "DataBucketName",
     "ParameterValue": "shashank-smart-hub-data"
   },

@@ -2,6 +2,11 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "Glue Database, Tables, Crawlers, ETL Jobs, and Crawler IAM Role for Residential Electrical Usage Analysis.",
   "Parameters": {
+    "StackName": {
+      "Type": "String",
+      "Description": "Name of the CloudFormation Stack",
+      "Default": "residential-electrical-usage-analysis"
+    },
     "DataBucketName": {
       "Type": "String",
       "Description": "S3 bucket that holds the data"
@@ -820,6 +825,81 @@
         "ScriptBucket",
         "LogBucket"
       ]
+    },
+
+    "LambdaFunctionExecutionRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "lambda.amazonaws.com"
+                ]
+              },
+              "Action": [
+                "sts:AssumeRole"
+              ]
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          "arn:aws:iam::aws:policy/AmazonS3FullAccess",
+          "arn:aws:iam::aws:policy/AmazonAthenaFullAccess",
+          "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+        ],
+        "Policies": [
+          {
+            "PolicyName": "allowLogging",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "logs:*"
+                  ],
+                  "Resource": "arn:aws:logs:*:*:*"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "RawDataToParquetLambda": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Description": "Convert the raw data to Parquet using CTAS statement",
+        "FunctionName": "smarthub-raw-data-to-parquet",
+        "Handler": "lambda_runner.lambda_handler",
+        "Code": {
+          "S3Bucket": {
+            "Fn::ImportValue": {
+              "Fn::Join": [
+                "-",
+                [
+                  {
+                    "Ref": "StackName"
+                  },
+                  "ScriptBucket"
+                ]
+              ]
+            }
+          },
+          "S3Key": "lambdas/smarthub-raw-data-to-parquet/package.zip"
+        },
+        "Runtime": "python3.8",
+        "Role": {
+          "Fn::GetAtt": [
+            "LambdaFunctionExecutionRole",
+            "Arn"
+          ]
+        }
+      }
     }
   },
   "Outputs": {
