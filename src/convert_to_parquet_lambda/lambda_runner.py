@@ -31,15 +31,15 @@ def lambda_handler(event, context):
     partition_by_column = event.get('partition_by_column')
 
     query = \
-        f"CREATE TABLE IF NOT EXISTS {GLUE_DATABASE}.{parquet_glue_table} " \
-        "WITH ( " \
-        "    format = 'PARQUET', " \
-        "    parquet_compression = 'SNAPPY', " \
+        f" CREATE TABLE IF NOT EXISTS {GLUE_DATABASE}.{parquet_glue_table} " \
+        "  WITH ( " \
+        "     format = 'PARQUET', " \
+        "     parquet_compression = 'SNAPPY', " \
         f"    partitioned_by = ARRAY['{partition_by_column}'], " \
         f"    external_location = 's3://{DATA_BUCKET}/{parquet_glue_table}' " \
         ") AS " \
-        "SELECT * " \
-        f"FROM {GLUE_DATABASE}.{raw_glue_table};"
+        "  SELECT * " \
+        f" FROM {GLUE_DATABASE}.{raw_glue_table};"
 
     logger.info(query)
 

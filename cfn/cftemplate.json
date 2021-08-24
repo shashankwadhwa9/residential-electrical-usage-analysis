@@ -898,6 +898,36 @@
             "LambdaFunctionExecutionRole",
             "Arn"
           ]
+        },
+        "Environment": {
+          "Variables": {
+            "GLUE_DATABASE": {
+              "Fn::ImportValue": {
+                "Fn::Join": [
+                  "-",
+                  [
+                    {
+                      "Ref": "StackName"
+                    },
+                    "GlueDatabase"
+                  ]
+                ]
+              }
+            },
+            "DATA_BUCKET": {
+              "Fn::ImportValue": {
+                "Fn::Join": [
+                  "-",
+                  [
+                    {
+                      "Ref": "StackName"
+                    },
+                    "DataBucket"
+                  ]
+                ]
+              }
+            }
+          }
         }
       }
     }

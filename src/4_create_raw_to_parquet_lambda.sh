@@ -1,9 +1,11 @@
 SCRIPT_BUCKET="shashank-smart-hub-scripts"
 
 # Create package zip for lambda
-zip -r package.zip src/convert_to_parquet_lambda/lambda_runner.py
+rm package.zip
+cd src/convert_to_parquet_lambda/ && zip -r ../../package.zip lambda_runner.py
 
 # Push lambda package on S3
+cd ../../
 aws s3 cp package.zip s3://${SCRIPT_BUCKET}/lambdas/smarthub-raw-data-to-parquet/
 
 # Update the stack with the new lambda resource
