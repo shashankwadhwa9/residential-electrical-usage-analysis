@@ -32,3 +32,11 @@
 * **Athena** - for querying the data on S3
 * **QuickSight** - for creating the dashboard
 * **Lambda** - for running a serverless function on the cloud
+
+
+### Data loading and cataloging
+
+1. Copy the raw data to S3. Usage data will be partitioned by date, whereas location and mapping data will be partitioned by state.
+2. Run the glue crawlers to create the metadata for the raw data.
+3. Create a lambda which will convert the raw usage, mappings and locations data to Parquet using Athena CTAS.
+4. Convert the rates raw data (which is in XML format) to parquet using Glue job.
