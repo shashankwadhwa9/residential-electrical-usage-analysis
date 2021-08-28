@@ -930,6 +930,67 @@
           }
         }
       }
+    },
+    "DataTransformationLambda": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Description": "Join multiple tables to generate transformed data",
+        "FunctionName": "smarthub-data-transformation",
+        "Handler": "lambda_runner.lambda_handler",
+        "Code": {
+          "S3Bucket": {
+            "Fn::ImportValue": {
+              "Fn::Join": [
+                "-",
+                [
+                  {
+                    "Ref": "StackName"
+                  },
+                  "ScriptBucket"
+                ]
+              ]
+            }
+          },
+          "S3Key": "lambdas/smarthub-data-transformation/package2.zip"
+        },
+        "Runtime": "python3.8",
+        "Role": {
+          "Fn::GetAtt": [
+            "LambdaFunctionExecutionRole",
+            "Arn"
+          ]
+        },
+        "Environment": {
+          "Variables": {
+            "GLUE_DATABASE": {
+              "Fn::ImportValue": {
+                "Fn::Join": [
+                  "-",
+                  [
+                    {
+                      "Ref": "StackName"
+                    },
+                    "GlueDatabase"
+                  ]
+                ]
+              }
+            },
+            "DATA_BUCKET": {
+              "Fn::ImportValue": {
+                "Fn::Join": [
+                  "-",
+                  [
+                    {
+                      "Ref": "StackName"
+                    },
+                    "DataBucket"
+                  ]
+                ]
+              }
+            }
+          }
+        }
+      }
     }
   },
   "Outputs": {
