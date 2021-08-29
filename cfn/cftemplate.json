@@ -991,6 +991,67 @@
           }
         }
       }
+    },
+    "TransformedDataOptimizationLambda": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Description": "Optimize the transformed data",
+        "FunctionName": "smarthub-transformed-data-optimization",
+        "Handler": "lambda_runner.lambda_handler",
+        "Code": {
+          "S3Bucket": {
+            "Fn::ImportValue": {
+              "Fn::Join": [
+                "-",
+                [
+                  {
+                    "Ref": "StackName"
+                  },
+                  "ScriptBucket"
+                ]
+              ]
+            }
+          },
+          "S3Key": "lambdas/smarthub-transformed-data-optimization/package3.zip"
+        },
+        "Runtime": "python3.8",
+        "Role": {
+          "Fn::GetAtt": [
+            "LambdaFunctionExecutionRole",
+            "Arn"
+          ]
+        },
+        "Environment": {
+          "Variables": {
+            "GLUE_DATABASE": {
+              "Fn::ImportValue": {
+                "Fn::Join": [
+                  "-",
+                  [
+                    {
+                      "Ref": "StackName"
+                    },
+                    "GlueDatabase"
+                  ]
+                ]
+              }
+            },
+            "DATA_BUCKET": {
+              "Fn::ImportValue": {
+                "Fn::Join": [
+                  "-",
+                  [
+                    {
+                      "Ref": "StackName"
+                    },
+                    "DataBucket"
+                  ]
+                ]
+              }
+            }
+          }
+        }
+      }
     }
   },
   "Outputs": {
